@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  straight:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-12-20T15:58:14.765444+09:00"
+    description: A Helm chart for Kubernetes
+    digest: 61a3eefb8f2ef62efe2abbfffa02ea765f3ba8693b9fb69fdf8d89f79934711f
+    name: straight
+    type: application
+    urls:
+    - https://gitlab.ukjake.com/straight/helmrepository.git/straight-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-12-20T15:58:14.76232+09:00"
