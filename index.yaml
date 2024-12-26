@@ -3,12 +3,12 @@ entries:
   straight:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-12-26T16:51:20.615671+09:00"
+    created: "2024-12-26T17:06:22.57912+09:00"
     description: A Helm chart for Kubernetes
-    digest: 275b830b66680f4852c1e161e29ce88c7819dd97365a13e246df54ed8a92c4c6
+    digest: 725fcd1c55672c8eeddcbd1b74336ea5225283e6feed6f9e4ea50e066e3be117
     name: straight
     type: application
     urls:
     - straight-0.1.0.tgz
     version: 0.1.0
-generated: "2024-12-26T16:51:20.614546+09:00"
+generated: "2024-12-26T17:06:22.577511+09:00"

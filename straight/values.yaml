@@ -54,8 +54,8 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: LoadBalancer
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80
-  targetPort: 8080
+  port: 80            # 서비스가 외부에 노출할 포트
+  targetPort: 8080    # 컨테이너 내부 포트 (스프링 부트 앱이 실행되는 포트)
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
@@ -93,12 +93,14 @@ livenessProbe:
     port: 8080
   initialDelaySeconds: 15
   periodSeconds: 20
+
 readinessProbe:
   httpGet:
     path: /health
     port: 8080
   initialDelaySeconds: 5
   periodSeconds: 10
+
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
