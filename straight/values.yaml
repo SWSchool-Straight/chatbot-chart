@@ -4,7 +4,7 @@
 
 # Pod의 ReplicaSet 개수 설정
 # ReplicaSet은 동일한 Pod를 여러 개 실행시켜 고가용성을 제공합니다.
-replicaCount: 3
+replicaCount: 2
 
 # 컨테이너 이미지 관련 설정
 image:
