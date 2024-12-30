@@ -19,7 +19,7 @@ image:
   redis:
     repository: redis
     pullPolicy: IfNotPresent
-    tag: latest
+    tag: 6.2.6 # 안정적인 Redis 버전으로 변경
 
 # Private Docker 레지스트리에서 이미지를 가져오기 위해 필요한 인증 정보 설정
 imagePullSecrets:
