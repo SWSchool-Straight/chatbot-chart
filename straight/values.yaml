@@ -2,46 +2,50 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+# Pod의 ReplicaSet 개수 설정
+# ReplicaSet은 동일한 Pod를 여러 개 실행시켜 고가용성을 제공합니다.
 replicaCount: 2
 
-# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+# 컨테이너 이미지 관련 설정
 image:
+  # 이미지를 가져올 레지스트리의 경로
   repository: harbor.sw-staring.com/straight/chatbot_be_image
-  # This sets the pull policy for images.
+  # 이미지를 항상 새로 가져올지 여부를 설정합니다.
+  # "Always"로 설정 시, 항상 최신 이미지를 가져옵니다.
   pullPolicy: Always
-  tag: "main-ef2f3b3"
+  # 사용할 Docker 이미지의 태그
+  tag: "main-8c4357d"
 
-# This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+# Private Docker 레지스트리에서 이미지를 가져오기 위해 필요한 인증 정보 설정
 imagePullSecrets:
   - name: harbor-secret
-# This is to override the chart name.
+
+# 차트 이름을 재정의
 nameOverride: ""
 fullnameOverride: ""
 
-# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+# 서비스 계정(Service Account) 관련 설정
 serviceAccount:
-  # Specifies whether a service account should be created
+  # 새로운 서비스 계정을 생성할지 여부
   create: true
-  # Automatically mount a ServiceAccount's API credentials?
+  # 서비스 계정의 API 자격증명 자동 마운트를 활성화
   automount: true
-  # Annotations to add to the service account
+  # 서비스 계정에 추가할 주석
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # 사용할 서비스 계정의 이름 (빈 값이면 자동 생성)
   name: ""
 
-# This is for setting Kubernetes Annotations to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
-podAnnotations: {}
-# This is for setting Kubernetes Labels to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-podLabels: {}
+# Pod에 주석(Annotations) 및 라벨(Labels)을 추가하는 설정
+podAnnotations: {}  # Pod의 메타데이터에 추가적인 정보를 저장
+podLabels: {}       # Pod을 식별하기 위한 키-값 쌍 설정
 
+# Pod 및 컨테이너 보안 설정
 podSecurityContext: {}
+  # Pod에 대한 보안 컨텍스트 설정 (예: 파일 시스템 그룹)
   # fsGroup: 2000
 
 securityContext: {}
+  # 컨테이너 보안 컨텍스트 설정 (예: 비루트 사용자로 실행)
   # capabilities:
   #   drop:
   #   - ALL
@@ -49,36 +53,41 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+# Kubernetes 서비스(Service) 설정
 service:
-  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  # 서비스 유형 설정 (예: ClusterIP, NodePort, LoadBalancer 등)
   type: LoadBalancer
-  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80            # 서비스가 외부에 노출할 포트
-  targetPort: 8080    # 컨테이너 내부 포트 (스프링 부트 앱이 실행되는 포트)
+  # 서비스 외부 포트 설정 (클라이언트가 접근하는 포트)
+  port: 80
+  # 서비스가 연결할 컨테이너 내부 포트
+  targetPort: 8080
 
-# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+# Ingress 설정
 ingress:
+  # Ingress 리소스를 활성화할지 여부
   enabled: false
+  # Ingress 클래스 이름 (예: nginx)
   className: ""
+  # 추가적인 Ingress 주석
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+    # 예: kubernetes.io/ingress.class: nginx
+    # 예: kubernetes.io/tls-acme: "true"
+  # 호스트 및 경로 설정
   hosts:
     - host: chart-example.local
       paths:
         - path: /
           pathType: ImplementationSpecific
+  # TLS 설정
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
 
+# 리소스 요청 및 제한 설정
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # 기본적으로 리소스 설정은 비활성화되어 있습니다.
+  # 환경에 맞게 리소스 요청 및 제한을 설정할 수 있습니다.
   # limits:
   #   cpu: 100m
   #   memory: 128Mi
@@ -86,14 +95,15 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+# Liveness 및 Readiness Probe 설정
+# Liveness Probe: 컨테이너가 정상 작동 중인지 확인
+# readinessProbe: 컨테이너가 트래픽을 받을 준비가 되었는지 확인
 # livenessProbe:
 #   httpGet:
 #     path: /health
 #     port: 8080
 #   initialDelaySeconds: 15
 #   periodSeconds: 20
-
 # readinessProbe:
 #   httpGet:
 #     path: /health
@@ -101,30 +111,32 @@ resources: {}
 #   initialDelaySeconds: 5
 #   periodSeconds: 10
 
-
-# This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+# 오토스케일링(Autoscaling) 설정
 autoscaling:
+  # HPA(수평 Pod 오토스케일링) 활성화 여부
   enabled: false
+  # 최소 및 최대 Pod 개수
   minReplicas: 1
   maxReplicas: 100
+  # CPU 사용률 기준 오토스케일링
   targetCPUUtilizationPercentage: 80
+  # 메모리 사용률 기준 오토스케일링 (활성화하려면 설정 추가)
   # targetMemoryUtilizationPercentage: 80
 
-# Additional volumes on the output Deployment definition.
+# 추가 볼륨 설정
 volumes: []
 # - name: foo
 #   secret:
 #     secretName: mysecret
 #     optional: false
 
-# Additional volumeMounts on the output Deployment definition.
+# 추가 볼륨 마운트 설정
 volumeMounts: []
 # - name: foo
 #   mountPath: "/etc/foo"
 #   readOnly: true
 
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+# 노드 선택 및 Pod 스케줄링 설정
+nodeSelector: {}  # 특정 노드에서만 Pod가 실행되도록 설정
+tolerations: []    # 특정 조건에서 노드에 Pod 실행 허용
+affinity: {}       # 고급 스케줄링 규칙 정의
