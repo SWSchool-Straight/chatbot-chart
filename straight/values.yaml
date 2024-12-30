@@ -98,18 +98,18 @@ resources: {}
 # Liveness 및 Readiness Probe 설정
 # Liveness Probe: 컨테이너가 정상 작동 중인지 확인
 # readinessProbe: 컨테이너가 트래픽을 받을 준비가 되었는지 확인
-# livenessProbe:
-#   httpGet:
-#     path: /health
-#     port: 8080
-#   initialDelaySeconds: 15
-#   periodSeconds: 20
-# readinessProbe:
-#   httpGet:
-#     path: /health
-#     port: 8080
-#   initialDelaySeconds: 5
-#   periodSeconds: 10
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelaySeconds: 15
+  periodSeconds: 20
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
 
 # 오토스케일링(Autoscaling) 설정
 autoscaling:
